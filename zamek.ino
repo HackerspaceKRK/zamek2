@@ -17,6 +17,7 @@
 #include <PubSubClient.h>
 #include <Wiegand.h>
 #include <Timer.h>
+#include <avr/wdt.h> // library for default watchdog functions
 
 /*
  * Ethernet
@@ -183,9 +184,11 @@ volatile int counter = 0;
 volatile int state = 0;
 
 void loop() {
+  wdt_disable(); 
   if (!client.connected()) {
     reconnect();
   }
+  wdt_enable(WDTO_8S); //8s
   // Every few milliseconds, check for pending messages on the wiegand reader
   // This executes with interruptions disabled, since the Wiegand library is not thread-safe
   noInterrupts();
@@ -212,6 +215,7 @@ void loop() {
     }
   }
   delay(100);
+  wdt_reset();
 }
 
 /*
