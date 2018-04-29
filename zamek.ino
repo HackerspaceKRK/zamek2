@@ -329,9 +329,6 @@ void open2(){
 void close2(){
   digitalWrite(DOOR2_RELAY_PIN, LOW);
 }
-void reject2(){
-  digitalWrite(DOOR2_BUZZER_PIN, LOW);
-}
 void reject_start2(){
   digitalWrite(DOOR2_BUZZER_PIN, HIGH);
   t.after(1000, reject_end2);
@@ -343,22 +340,22 @@ void reject_end2(){
 
 #if READERS_COUNT > 2
 void setup3(){
-  pinMode(DOOR3_RELAY_PIN, INPUT);
-  pinMode(DOOR3_BUZZER_PIN, INPUT);
+  pinMode(DOOR3_RELAY_PIN, OUTPUT);
+  pinMode(DOOR3_BUZZER_PIN, OUTPUT);
 }
 void open3(){
-  pinMode(DOOR3_RELAY_PIN, OUTPUT);
+  digitalWrite(DOOR3_RELAY_PIN, HIGH);
   t.after(3000, close3);
 }
 void close3(){
-  pinMode(DOOR3_RELAY_PIN, INPUT);
+  digitalWrite(DOOR3_RELAY_PIN, LOW);
 }
 void reject_start3(){
-  pinMode(DOOR3_BUZZER_PIN, OUTPUT);
+  digitalWrite(DOOR3_BUZZER_PIN, HIGH);
   t.after(1000, reject_end3);
 }
 void reject_end3(){
-  pinMode(DOOR3_BUZZER_PIN, INPUT);
+  digitalWrite(DOOR3_BUZZER_PIN, LOW);
 }
 #endif
 
